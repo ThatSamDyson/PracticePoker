@@ -58,6 +58,7 @@ void endGame()
     {
        restartGame();
     }
+
 }
 
 void draw()
@@ -136,5 +137,7 @@ void restartGame()
 int main()
 {
 draw();
+
+return 0;
 
 }
