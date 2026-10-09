@@ -93,7 +93,7 @@ void draw()
 
 
     int sum = std::accumulate(card.begin(), card.end(), 0);
-    std::cout << "Total hand: " << sum << "\n";
+    std::cout << "Your hand: " << sum << "\n";
 
     std::cout << "Cards Drawn: " << cardsDrawn << std::endl;
 
@@ -114,7 +114,9 @@ void draw()
 
     else
     {
-        playerChoice();
+        std::this_thread::sleep_for(std::chrono::seconds(1)); 
+
+        computerDraw();
     }
 
 
@@ -133,6 +135,40 @@ void restartGame()
 
     draw();
 }
+
+void computerDraw()
+{
+    std::srand(time(NULL));
+
+    int drawnCard = rand() % 13; //Draws Card
+    int x = computerCardsDrawn;
+    computerCard[x] = drawnCard;
+
+    std::cout << "Your opponent drew " << cValue [drawnCard] << " of " << cFace[rand() % 4] << std::endl;
+
+    if (computerCard[x] > 10)
+    {
+        computerCard[x] = 10;
+    }
+
+    else if  (computerCard[x] == 1)
+    {
+        computerCard [x] = 10;
+    }
+
+    else if (computerCard[x] == 0)
+    {
+        computerCard[x] = 11;
+    }
+
+     computerCardsDrawn = computerCardsDrawn +1;
+
+     int computerSum = std::accumulate(computerCard.begin(), computerCard.end(), 0);
+    std::cout << "Their hand: " << computerSum << "\n";
+
+    playerChoice();
+}
+
 
 int main()
 {
