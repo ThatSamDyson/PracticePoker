@@ -5,59 +5,6 @@
 #include <thread>
 #include <chrono>
 
-int firstDraw()
-{
-    std::srand(time(NULL));
-        firstCard = rand() % 14;
-    std::cout << "You drew " << cValue[firstCard] << " of " << cFace[rand() % 4] << std::endl;
-
-    //firstCard = rand() % 14;
-    std::cout << firstCard << std::endl;
-
-    if (firstCard > 10)
-    {
-        firstCard = 10; 
-    }
-
-    else if (firstCard == 0)
-    {
-        firstCard = 11
-        
-    }
-
-    return 0;
-
-}
-
-int secondDraw()
-{
-
-    std::srand(time(NULL));
-    secondCard = rand() % 14;
-    std::cout << "You drew " << cValue[secondCard] << " of " << cFace[rand() % 4] << std::endl;
-
-    
-
-    if (secondCard > 10)
-    {
-        secondCard = 10; 
-    }
-
-    std::cout << secondCard << std::endl;
-
-    return 0;
-
-}
-
-int handValue()
-{
-    handWorth = firstCard + secondCard + thirdCard + fourthCard + fifthCard;
-
-    std::cout << "Your current hand is worth " << handWorth << std::endl;
-
-    return 0;
-}
-
 void playerChoice()
 {
 int playerInput;
@@ -69,6 +16,7 @@ int playerInput;
     if (playerInput == 1)
     {
         std::cout << "You draw another card" << std::endl;
+        draw();
     }
 
     else if (playerInput == 2)
@@ -95,16 +43,98 @@ void invalidInput()
 playerChoice();
 }
 
+
+void endGame()
+{
+    int endGameInput;
+
+    std::cout << "Would you like to play again?" << std::endl;
+
+    std::cout << "1. Yes | 2. No" << std::endl;
+
+    std::cin >> endGameInput;
+
+    if (endGameInput == 1)
+    {
+       restartGame();
+    }
+}
+
+void draw()
+{
+    std::cout << "\033[H\033[2J" << std::flush; 
+
+    std::srand(time(NULL));
+
+    int drawnCard = rand() % 13; //Draws Card
+    int i = cardsDrawn;
+    card[i] = drawnCard; //Sets card value in Array
+
+    
+    std::cout << "You drew " << cValue [drawnCard] << " of " << cFace[rand() % 4] << std::endl;
+
+    if (card[i] > 10)
+    {
+        card[i] = 10;
+    }
+
+    else if  (card[i] == 1)
+    {
+        card [i] = 10;
+    }
+
+    else if (card[i] == 0)
+    {
+        card[i] = 11;
+    }
+
+     cardsDrawn = cardsDrawn +1;
+
+
+    int sum = std::accumulate(card.begin(), card.end(), 0);
+    std::cout << "Total hand: " << sum << "\n";
+
+    std::cout << "Cards Drawn: " << cardsDrawn << std::endl;
+
+    if (sum == 21)
+    {
+        endGame();
+    }
+
+    if (sum > 21)
+    {
+        endGame();
+    }
+
+    if (cardsDrawn == 5)
+    {
+        endGame();
+    }
+
+    else
+    {
+        playerChoice();
+    }
+
+
+}
+
+void restartGame()
+{
+    cardsDrawn = 0;
+    card[0] = 0;
+    card[1] = 0;
+    card[2] = 0;
+    card[3] = 0;
+    card[4] = 0;
+
+    std::cout << "\033[H\033[2J" << std::flush; 
+
+    draw();
+}
+
 int main()
 {
-   firstDraw();
-
-   std::this_thread::sleep_for(std::chrono::seconds(1)); //Delay between draws
-
-   secondDraw();
-
-   handValue();
-
-   playerChoice();
+draw();
 
 }
