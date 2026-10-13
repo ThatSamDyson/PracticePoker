@@ -10,8 +10,10 @@
 void playerChoice();
 void invalidInput();
 void check21();
+void checkStuck();
 void endGame();
 void draw();
+void computerLogic();
 void restartGame();
 
 void computerChoice();
@@ -19,6 +21,14 @@ void computerDraw();
 
 
 int cardsDrawn = 0;
+int computerCardsDrawn = 0;
+int sum;
+int computerSum;
+int computerRandNum;
+bool playerSticks;
+bool computerSticks;
+bool playerFirstDraw = true;
+bool computerFirstDraw = true;
 bool gameOver = false;
 bool wonHand = false;
 bool lostHand = false;

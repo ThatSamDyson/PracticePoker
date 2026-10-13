@@ -15,6 +15,7 @@ int playerInput;
 
     if (playerInput == 1)
     {
+        std::cout << "\033[H\033[2J" << std::flush; 
         std::cout << "You draw another card" << std::endl;
         draw();
     }
@@ -63,7 +64,7 @@ void endGame()
 
 void draw()
 {
-    std::cout << "\033[H\033[2J" << std::flush; 
+
 
     std::srand(time(NULL));
 
@@ -90,6 +91,14 @@ void draw()
     }
 
      cardsDrawn = cardsDrawn +1;
+
+     if (cardsDrawn < 2)
+     {
+        std::this_thread::sleep_for(std::chrono::seconds(1)); 
+
+        draw();
+
+     }
 
 
     int sum = std::accumulate(card.begin(), card.end(), 0);
@@ -163,12 +172,96 @@ void computerDraw()
 
      computerCardsDrawn = computerCardsDrawn +1;
 
+     if (computerCardsDrawn < 2)
+     {
+        std::this_thread::sleep_for(std::chrono::seconds(1)); 
+        computerDraw();
+     }
+
      int computerSum = std::accumulate(computerCard.begin(), computerCard.end(), 0);
     std::cout << "Their hand: " << computerSum << "\n";
+
+    if (computerSum == 21)
+    {
+        std::cout << "Your opponent wins!" << std::endl;
+        endGame();
+    }
+
+    if (computerSum > 21)
+    {
+        std::cout << "Your opponent busted out!" << std::endl;
+        endGame();
+    }
+
+    if (computerCardsDrawn == 5)
+    {
+        std::cout << "Your opponent got a five card Charlie" << std::endl;
+        std::cout << "Your opponent wins!" << std::endl;
+        endGame();
+    }
 
     playerChoice();
 }
 
+void computerLogic()
+{
+    if (computerSticks == true)
+    {
+        checkStuck();
+    }
+
+    int computerRandNum = rand() % 99;
+
+    if (computerSum == 20)
+    {
+        if (computerRandNum == 99)
+        {
+            computerDraw();
+        }
+
+        else 
+        {
+            computerSticks = true;
+        }
+    }
+}
+
+void checkStuck()
+{
+ if ((playerSticks = true) && (computerSticks = true))
+ {
+    if (sum > computerSum)
+    {
+        std::cout << "The player wins!" << std::endl;
+        
+        endGame();
+    }
+
+    else if (sum < computerSum)
+    {
+        std::cout << "The computer wins!" << std::endl;
+        
+        endGame();
+    }
+
+    else if (sum == computerSum)
+    {
+        std::cout << "The hand is tied" << std::endl;
+        
+        endGame();
+    }
+ }
+
+ else if (playerSticks == true)
+ {
+    computerLogic();
+ }
+
+ else if (computerSticks == true)
+ {
+    playerChoice();
+ }
+}
 
 int main()
 {
