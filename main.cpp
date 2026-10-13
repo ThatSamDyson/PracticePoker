@@ -23,6 +23,8 @@ int playerInput;
     else if (playerInput == 2)
     {
     std::cout << "You stick with your cards" << std::endl;
+
+    checkStuck();
     }
     
     else if (playerInput == 3)
@@ -125,9 +127,10 @@ void draw()
     {
         std::this_thread::sleep_for(std::chrono::seconds(1)); 
 
-        computerDraw();
+        computerLogic();
     }
 
+    
 
 }
 
@@ -139,6 +142,15 @@ void restartGame()
     card[2] = 0;
     card[3] = 0;
     card[4] = 0;
+    playerSticks = false;
+
+    computerCardsDrawn = 0;
+    computerCard[0] = 0;
+    computerCard[1] = 0;
+    computerCard[2] = 0;
+    computerCard[3] = 0;
+    computerCard[4] = 0;
+    computerSticks = false;
 
     std::cout << "\033[H\033[2J" << std::flush; 
 
@@ -210,6 +222,10 @@ void computerLogic()
         checkStuck();
     }
 
+    int computerSum = std::accumulate(computerCard.begin(), computerCard.end(), 0);
+
+    std::cout << computerSum << std::endl;
+
     int computerRandNum = rand() % 99;
 
     if (computerSum == 20)
@@ -222,13 +238,104 @@ void computerLogic()
         else 
         {
             computerSticks = true;
+
+            checkStuck();
         }
+    }
+
+    else if (computerSum > 19)
+    {
+         if (computerRandNum > 95)
+        {
+            computerDraw();
+        }
+
+        else 
+        {
+            computerSticks = true;
+            checkStuck();
+        }
+    }
+
+    else if (computerSum > 17)
+    {
+        if (computerRandNum > 85)
+        {
+            computerDraw();
+        }
+
+        else 
+        {
+            computerSticks = true;
+            checkStuck();
+        }
+    }
+
+    else if (computerSum > 15)
+    {
+        if (computerRandNum > 70)
+        {
+            computerDraw();
+        }
+
+        else 
+        {
+            computerSticks = true;
+            checkStuck();
+        }
+    }
+
+     else if (computerSum > 15)
+    {
+        if (computerRandNum > 60)
+        {
+            computerDraw();
+        }
+
+        else 
+        {
+            computerSticks = true;
+            checkStuck();
+        }
+    }
+
+    else if (computerSum > 13)
+    {
+        if (computerRandNum > 35)
+        {
+            computerDraw();
+        }
+
+        else 
+        {
+            computerSticks = true;
+            checkStuck();
+        }
+    }
+
+     else if (computerSum > 10)
+    {
+        if (computerRandNum > 15)
+        {
+            computerDraw();
+        }
+
+        else 
+        {
+            computerSticks = true;
+            checkStuck();
+        }
+    }
+
+    else
+    {
+        computerDraw();
     }
 }
 
 void checkStuck()
 {
- if ((playerSticks = true) && (computerSticks = true))
+ if ((playerSticks == true) && (computerSticks == true))
  {
     if (sum > computerSum)
     {
@@ -252,7 +359,7 @@ void checkStuck()
     }
  }
 
- else if (playerSticks == true)
+if (playerSticks == true)
  {
     computerLogic();
  }
