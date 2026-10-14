@@ -7,16 +7,16 @@
 #ifndef HEADER_H
 #define HEADER_H
 
-void playerChoice();
+void checkStuck();
 void invalidInput();
 void check21();
-void checkStuck();
 void endGame();
 void draw();
 void computerLogic();
 void restartGame();
 void computerChoice();
 void computerDraw();
+void playerChoice();
 
 
 int cardsDrawn = 0;

@@ -9,6 +9,11 @@ void playerChoice()
 {
 int playerInput;
 
+if (playerSticks == true)
+{
+    checkStuck();
+}
+
     std::cout << "What would you like to do?" << std::endl;
     std::cout << "1. Draw | 2. Stick | 3. Fold" << std::endl;
     std::cin >> playerInput;
@@ -20,16 +25,21 @@ int playerInput;
         draw();
     }
 
-    else if (playerInput == 2)
+    if (playerInput == 2)
     {
+
     std::cout << "You stick with your cards" << std::endl;
+
+    playerSticks = true;
 
     checkStuck();
     }
     
-    else if (playerInput == 3)
+    if (playerInput == 3)
     {
         std::cout << "You fold" << std::endl;
+
+        endGame();
     }
 
     else
@@ -103,7 +113,7 @@ void draw()
      }
 
 
-    int sum = std::accumulate(card.begin(), card.end(), 0);
+    sum = std::accumulate(card.begin(), card.end(), 0);
     std::cout << "Your hand: " << sum << "\n";
 
     std::cout << "Cards Drawn: " << cardsDrawn << std::endl;
@@ -190,7 +200,7 @@ void computerDraw()
         computerDraw();
      }
 
-     int computerSum = std::accumulate(computerCard.begin(), computerCard.end(), 0);
+    computerSum = std::accumulate(computerCard.begin(), computerCard.end(), 0);
     std::cout << "Their hand: " << computerSum << "\n";
 
     if (computerSum == 21)
@@ -222,9 +232,9 @@ void computerLogic()
         checkStuck();
     }
 
-    int computerSum = std::accumulate(computerCard.begin(), computerCard.end(), 0);
+    computerSum = std::accumulate(computerCard.begin(), computerCard.end(), 0);
 
-    std::cout << computerSum << std::endl;
+    //std::cout << computerSum << std::endl;
 
     int computerRandNum = rand() % 99;
 
