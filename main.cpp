@@ -39,6 +39,9 @@ if (playerSticks == true)
     {
         std::cout << "You fold" << std::endl;
 
+        playerMoney = playerMoney -10;
+        computerMoney = computerMoney =10;
+
         endGame();
     }
 
@@ -61,6 +64,22 @@ void endGame()
 {
     int endGameInput;
 
+    std::cout <<"You currently have $" << playerMoney << std::endl;
+
+    if (playerMoney == 200)
+    {
+        std::cout << "Your opponent is bankrupt! You win!" << std::endl;
+
+        exit(0);
+    }
+
+    else if (playerMoney == 0)
+    {
+        std::cout << "You are out of money. Game over" <<std::endl;
+
+        exit(0);
+    }
+
     std::cout << "Would you like to play again?" << std::endl;
 
     std::cout << "1. Yes | 2. No" << std::endl;
@@ -70,6 +89,11 @@ void endGame()
     if (endGameInput == 1)
     {
        restartGame();
+    }
+
+    if (endGameInput ==2)
+    {
+        exit(0);
     }
 
 }
@@ -120,16 +144,25 @@ void draw()
 
     if (sum == 21)
     {
+        playerMoney = (playerMoney + 20);
+        computerMoney = (computerMoney - 20);
+
         endGame();
     }
 
     if (sum > 21)
     {
+        playerMoney = (playerMoney - 10);
+        computerMoney = (computerMoney + 10);
+
         endGame();
     }
 
     if (cardsDrawn == 5)
     {
+        playerMoney = (playerMoney + 20);
+        computerMoney = (computerMoney - 20);
+
         endGame();
     }
 
@@ -169,6 +202,9 @@ void restartGame()
 
 void computerDraw()
 {
+    std::this_thread::sleep_for(std::chrono::seconds(1)); 
+
+
     std::srand(time(NULL));
 
     int drawnCard = rand() % 13; //Draws Card
@@ -196,7 +232,7 @@ void computerDraw()
 
      if (computerCardsDrawn < 2)
      {
-        std::this_thread::sleep_for(std::chrono::seconds(1)); 
+        //std::this_thread::sleep_for(std::chrono::seconds(1)); 
         computerDraw();
      }
 
@@ -206,17 +242,26 @@ void computerDraw()
     if (computerSum == 21)
     {
         std::cout << "Your opponent wins!" << std::endl;
+
+        playerMoney = (playerMoney - 20);
+        computerMoney = (computerMoney + 20);
         endGame();
     }
 
     if (computerSum > 21)
     {
+        playerMoney = (playerMoney + 10);
+        computerMoney = (computerMoney - 10);
+
         std::cout << "Your opponent busted out!" << std::endl;
         endGame();
     }
 
     if (computerCardsDrawn == 5)
     {
+        playerMoney = (playerMoney - 20);
+        computerMoney = (computerMoney + 20);
+
         std::cout << "Your opponent got a five card Charlie" << std::endl;
         std::cout << "Your opponent wins!" << std::endl;
         endGame();
@@ -229,6 +274,13 @@ void computerLogic()
 {
     if (computerSticks == true)
     {
+        checkStuck();
+    }
+
+    if ((playerSticks == true) && (computerSum > sum))
+    {
+        computerSticks = true;
+
         checkStuck();
     }
 
@@ -283,7 +335,7 @@ void computerLogic()
 
     else if (computerSum > 15)
     {
-        if (computerRandNum > 70)
+        if (computerRandNum > 50)
         {
             computerDraw();
         }
@@ -295,23 +347,10 @@ void computerLogic()
         }
     }
 
-     else if (computerSum > 15)
-    {
-        if (computerRandNum > 60)
-        {
-            computerDraw();
-        }
-
-        else 
-        {
-            computerSticks = true;
-            checkStuck();
-        }
-    }
 
     else if (computerSum > 13)
     {
-        if (computerRandNum > 35)
+        if (computerRandNum > 30)
         {
             computerDraw();
         }
@@ -347,9 +386,14 @@ void checkStuck()
 {
  if ((playerSticks == true) && (computerSticks == true))
  {
+    std::cout << "Both players have stuck" <<std::endl;
+
     if (sum > computerSum)
     {
         std::cout << "The player wins!" << std::endl;
+
+        playerMoney = (playerMoney + 10);
+        computerMoney = (computerMoney - 10);
         
         endGame();
     }
@@ -358,6 +402,10 @@ void checkStuck()
     {
         std::cout << "The computer wins!" << std::endl;
         
+        
+        playerMoney = (playerMoney-10);
+        computerMoney = (computerMoney+10);
+
         endGame();
     }
 
@@ -371,11 +419,20 @@ void checkStuck()
 
 if (playerSticks == true)
  {
+    std::cout << "You have stuck" << std::endl;
+
+    std::cout << "You have:" << sum << std::endl;
+
     computerLogic();
  }
 
  else if (computerSticks == true)
  {
+    std::cout << "The Computer has stuck" << std::endl;
+
+    std::cout << "They have:" << computerSum << std::endl;
+
+
     playerChoice();
  }
 }

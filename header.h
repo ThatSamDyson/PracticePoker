@@ -3,6 +3,7 @@
 #include <array>
 #include <algorithm>
 #include <numeric>
+#include <cstdlib>
 
 #ifndef HEADER_H
 #define HEADER_H
@@ -20,6 +21,8 @@ void playerChoice();
 
 
 int cardsDrawn = 0;
+int playerMoney = 100;
+int computerMoney = 100;
 int computerCardsDrawn = 0;
 int sum;
 int computerSum;
@@ -34,9 +37,6 @@ bool lostHand = false;
 
 std::array<int, 5> card = {0, 0, 0, 0, 0};
 std::array<int, 5> computerCard = {0, 0, 0, 0, 0};
-
-int playerMoney = 1000;
-int computerMoney = 1000;
 
 
 std::string cValue[13] = {"Ace", "Jack", "2", "3", "4", "5", "6", "7", "8", "9", "10", "King", "Queen"};
